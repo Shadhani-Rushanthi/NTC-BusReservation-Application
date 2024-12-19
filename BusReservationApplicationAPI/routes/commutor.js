@@ -1,5 +1,9 @@
 import express from 'express'
 
-const router = express.Router();
+const commutorRoute = express.Router();
 
-export default router;
+commutorRoute.get('/', (req, res) => {
+    res.send('Bus Operator Route');
+});
+
+export default commutorRoute;

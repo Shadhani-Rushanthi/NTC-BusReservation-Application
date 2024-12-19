@@ -1,5 +1,10 @@
 import express from 'express'
 
-const router = express.Router();
+const adminRoute = express.Router();
 
-export default router;
+// Define your routes
+adminRoute.get('/', (req, res) => {
+    res.send('Bus Operator Route');
+});
+
+export default adminRoute;

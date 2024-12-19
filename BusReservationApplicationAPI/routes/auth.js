@@ -1,5 +1,9 @@
 import express from 'express'
 
-const router = express.Router();
+const authRoute = express.Router();
 
-export default router;
+// Define your routes
+authRoute.get('/', (req, res) => {
+    res.send('Bus Operator Route');
+});
+export default authRoute;
