@@ -1,5 +1,6 @@
 import express from 'express';
-import mongoose, { version } from 'mongoose';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import swagegrUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
@@ -7,9 +8,12 @@ import authRoute from './routes/auth.js';
 import adminRoute from './routes/admin.js';
 import busOperatorRoute from './routes/busOperator.js';
 import commutorRoute from './routes/commutor.js';
+import dotenv from 'dotenv';
 
 const app = express()
 const port =3000
+
+dotenv.config()
 
 //Connect to MonogoDB
 mongoose
@@ -18,12 +22,13 @@ mongoose
     .catch((err) => console.log("MongoDB connection error:", err))
 
 app.use(express.json())
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors())
 
 //routes
-// app.use('/auth', authRoute)
-// app.use('/admin', adminRoute)
-app.use('/busOperator', busOperatorRoute)
+app.use('/auth', authRoute)
+app.use('/admin', adminRoute)
+//app.use('/busOperator', busOperatorRoute)
 // app.use('/commutor', commutorRoute)
 
 //swagger

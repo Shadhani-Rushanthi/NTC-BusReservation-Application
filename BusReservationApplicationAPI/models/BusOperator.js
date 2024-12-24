@@ -2,18 +2,23 @@ import mongoose from "mongoose";
 
 const busOperatorSchema = new mongoose.Schema(
     {
-        id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
-        businessName: { type: String, required: true },
-        email: { type: String, required: true, unique: true },
+        //id: { type: String, required: false, auto: true },
+        businessName: { type: String, required: true, unique: true },
+        email: { type: String, required: true },
         password: { type: String, required: true },
+        status: {type: Number, required: true},
         location: { type: String, required: true },
-        NoOfBusses: { type: Int32Array, required: true },
+        NoOfBusses: { type: Number, required: true },
         role : {type: Array, required: true},
-        busDetails: {
-            busNo:  {type: String, required: true },
-            PermitNo:  {type: String, required: true },
-            NoOfSeats:  {type: String, required: true },
-        }
+        busDetails: [
+            {
+                busNo:  {type: String, required: false },
+                PermitNo:  {type: String, required: false },
+                NoOfSeats:  {type: String, required: false },
+            }
+        ]
+    },{
+        timestamps:true
     }
 )
 
