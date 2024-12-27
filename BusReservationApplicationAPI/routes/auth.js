@@ -1,5 +1,5 @@
 import express from 'express'
-import { adminRegister, busOperatorRegister, commuterRegister } from '../controllers/AuthController.js';
+import { adminRegister, busOperatorLogin, busOperatorRegister, commuterRegister, commutorLogin } from '../controllers/AuthController.js';
 
 const authRoute = express.Router();
 
@@ -146,5 +146,9 @@ authRoute.post('/busOperatorRegister', busOperatorRegister);
  *         description: Internal Server Error
  */
 authRoute.post('/commuterRegister', commuterRegister);
+
+authRoute.post('/busOperatorLogin/:email/:password', busOperatorLogin)
+
+authRoute.post('/commutorLogin/:email/:password', commutorLogin)
 
 export default authRoute;

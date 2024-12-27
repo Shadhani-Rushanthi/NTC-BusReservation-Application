@@ -1,5 +1,5 @@
 import express from 'express'
-import { ApproveBusOperator, getBusOperatorsForApproval, getRegisteredBusOperators, getRejectedBusOperators } from '../controllers/AdminController.js';
+import { addBusRoutes, ApproveOrRejectBusDetails, ApproveOrRejectBusOperator, getBusDetailsForApproval, getBusOperatorsForApproval, getRegisteredBusOperators, getRejectedBusOperators } from '../controllers/AdminController.js';
 
 const adminRoute = express.Router();
 
@@ -49,10 +49,16 @@ const adminRoute = express.Router();
  */
 adminRoute.get('/GetPendingBusOperators', getBusOperatorsForApproval)
 
-adminRoute.post('/ApproveBusOperator/:id/:status', ApproveBusOperator)
+adminRoute.get('/getBusDetailsForApproval', getBusDetailsForApproval)
+
+adminRoute.post('/ApproveOrRejectBusOperator/:id/:status', ApproveOrRejectBusOperator)
+
+adminRoute.post('/ApproveOrRejectBusDetails/:id/:busNo/:status', ApproveOrRejectBusDetails)
 
 adminRoute.get('/ViewRegisteredBusOperators', getRegisteredBusOperators)
 
 adminRoute.get('/ViewRejectedBusOperators', getRejectedBusOperators)
+
+adminRoute.post('/addBusRoutes', addBusRoutes)
 
 export default adminRoute;

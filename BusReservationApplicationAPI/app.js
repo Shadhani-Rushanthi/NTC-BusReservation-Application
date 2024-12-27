@@ -28,8 +28,8 @@ app.use(cors())
 //routes
 app.use('/auth', authRoute)
 app.use('/admin', adminRoute)
-//app.use('/busOperator', busOperatorRoute)
-// app.use('/commutor', commutorRoute)
+app.use('/busOperator', busOperatorRoute)
+app.use('/commutor', commutorRoute)
 
 //swagger
 const swaggerOption = {

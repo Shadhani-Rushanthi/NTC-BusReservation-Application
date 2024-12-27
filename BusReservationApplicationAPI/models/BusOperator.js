@@ -12,9 +12,13 @@ const busOperatorSchema = new mongoose.Schema(
         role : {type: Array, required: true},
         busDetails: [
             {
-                busNo:  {type: String, required: false },
-                PermitNo:  {type: String, required: false },
-                NoOfSeats:  {type: String, required: false },
+                PermitNo:  {type: String, required: false, unique: true },
+                busNo:  {type: String, required: false, unique: true },
+                noOfSeats:  {type: Number, required: false },
+                condition:  {type: String, required: false },
+                structure:  {type: Number, required: false },
+                routeID:  {type: Number, required: false },
+                Status: {type: Number, required: false },
             }
         ]
     },{
