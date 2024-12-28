@@ -68,8 +68,42 @@ export const reserveASeat = async (req, res, next) => {
 
 export const viewUserReservations = async (req, res, next) => {
     try {
+        var userReservationLists = []
         const userId = req.params.id
-        const reservations = BusSeatReservation.find({"reservedSeats.passengerId": userId})
+        const reservations = await BusSeatReservation.find(
+            { "reservedSeats.passengerId": userId }, 
+            {runTimeId: 1, "reservedSeats": 1 }
+        );
+        
+        for (const reservation of reservations) {
+                const busRunTme = await BusSchedule.find(
+                    {"runTimes._id": reservation.runTimeId},
+                    { busid: 1, "runTimes.$": 1 }
+                )
+                const bus = await BusOperator.find(
+                    {"busDetails._id": busRunTme[0].busid},
+                    { businessName: 1, "busDetails.$": 1 }
+                )
+
+                var seatNos=[]
+                reservation.reservedSeats.forEach( rs=> {
+                    rs.passengerId === userId ? seatNos.push(rs.seatNumber) : ''
+                });
+            
+                var reservationDetails = {
+                    busid: bus[0].busDetails[0].id,
+                    busNo: bus[0].busDetails[0].busNo,
+                    businessName: bus[0].businessName,
+                    startTime: busRunTme[0].runTimes[0].startTime.toString(),
+                    endTime: busRunTme[0].runTimes[0].endTime.toString(),
+                    startFrom: busRunTme[0].runTimes[0].startFrom,
+                    endFrom: busRunTme[0].runTimes[0].endFrom,
+                    seatNo: seatNos
+                }
+                userReservationLists.push(reservationDetails)
+        }
+        return res.status(200).json(userReservationLists)
+
     } catch (error) {
         console.log(error)
     }

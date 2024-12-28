@@ -1,6 +1,6 @@
 import express from 'express'
 import { searchBusses } from '../controllers/Commutor.js';
-import { reserveASeat } from '../controllers/BusSeatReservationController.js';
+import { reserveASeat, viewUserReservations } from '../controllers/BusSeatReservationController.js';
 import { verifyToken } from '../utils/verifyToken.js';
 
 const commutorRoute = express.Router();
@@ -13,5 +13,6 @@ commutorRoute.get('/', (req, res) => {
 commutorRoute.get('/searchBusses', searchBusses)
 
 commutorRoute.post('/reserveSeat', verifyToken, reserveASeat)
+commutorRoute.get('/viewUserReservations/:id', verifyToken, viewUserReservations)
 
 export default commutorRoute;

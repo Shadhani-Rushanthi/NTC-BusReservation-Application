@@ -160,7 +160,17 @@ export const  viewBusSeatReservations = async ( req, res, next ) => {
     try {
         const reservations = await BusSeatReservation.find({runTimeId: req.params.runTimeId});
         if(reservations.length === 0) return res.status(200).json("This bus has no reservations yet");
-        return res.status(200).json(reservations);
+        const filteredReservations = reservations.map(reservation => {
+            const filteredSeats = reservation.reservedSeats.filter(seat => seat.status !== 3); // Exclude objects with status = 3
+            return {
+                ...reservation._doc, // Spread the reservation document
+                reservedSeats: filteredSeats // Overwrite reservedSeats with the filtered array
+            };
+        });
+        if (filteredReservations[0].reservedSeats.length === 0) {
+            return res.status(200).json("No valid reservations found.");
+        }
+        return res.status(200).json(filteredReservations);
     } catch (error) {
         console.log(error)
         next(error)
