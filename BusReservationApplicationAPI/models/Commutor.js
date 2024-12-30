@@ -7,7 +7,8 @@ const commutorSchema = new mongoose.Schema(
         password: { type: String, required: true },
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
-        role : {type: Array, required: true}
+        role : {type: Array, required: true},
+        reservations: {type: Array, required: false}
     },{
         timestamps:true
     }

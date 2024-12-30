@@ -9,6 +9,7 @@ import adminRoute from './routes/admin.js';
 import busOperatorRoute from './routes/busOperator.js';
 import commutorRoute from './routes/commutor.js';
 import dotenv from 'dotenv';
+import YAML from 'yamljs';
 
 const app = express()
 const port =3000
@@ -49,7 +50,7 @@ const swaggerOption = {
     apis:['./routes/*.js'],
 };
 
-const swaggerDocs = swaggerJsdoc(swaggerOption)
+const swaggerDocs = YAML.load('./swagger.yaml')
 app.use('/api-docs', swagegrUi.serve, swagegrUi.setup(swaggerDocs));
 
 app.listen(port, () => {
