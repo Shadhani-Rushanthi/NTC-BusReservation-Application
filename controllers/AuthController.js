@@ -73,7 +73,7 @@ export const adminLogin = async (req, res, next)=>{
         if(!ispwdCorrect) return res.status(200).json("Incorrect Password");
        
         // const token = jwt.sign({ id:user._id }, process.env.JWT);
-        const token = jwt.sign({ id:user.id, role: user.role[0], email: user.email }, process.env.JWT,{ expiresIn: '600s' });
+        const token = jwt.sign({ id:user.id, role: user.role[0], email: user.email }, process.env.JWT,{ expiresIn: '1800s' });
         const {_id, password, ...otherDetails} = user._doc;
         res.cookie("access_token", token, {httpOnly:true}).status(200).json({...otherDetails, token: token,})
     } catch (error) {
@@ -90,7 +90,7 @@ export const commutorLogin = async (req, res, next)=>{
         if(!ispwdCorrect) return res.status(200).json("Incorrect Password");
        
         // const token = jwt.sign({ id:user._id }, process.env.JWT);
-        const token = jwt.sign({ id:user.id, role: user.role[0], email: user.email, fname:user.firstName, lname: user.firstName, reservations: user.reservations }, process.env.JWT,{ expiresIn: '600s' });
+        const token = jwt.sign({ id:user.id, role: user.role[0], email: user.email, fname:user.firstName, lname: user.firstName, reservations: user.reservations }, process.env.JWT,{ expiresIn: '1800s' });
         const {_id, password, ...otherDetails} = user._doc;
         res.cookie("access_token", token, {httpOnly:true}).status(200).json({...otherDetails, token: token,})
     } catch (error) {
@@ -108,7 +108,7 @@ export const busOperatorLogin = async (req, res, next)=>{
         if(!ispwdCorrect) return res.status(200).json("Incorrect Password");
        
         // const token = jwt.sign({ id:user._id }, process.env.JWT);
-        const token = jwt.sign({ id:user.id, role: user.role[0], email: user.email, businessName: user.businessName, status: user.status, location: user.location, busDetails: user.busDetails }, process.env.JWT,{ expiresIn: '600s' });
+        const token = jwt.sign({ id:user.id, role: user.role[0], email: user.email, businessName: user.businessName, status: user.status, location: user.location, busDetails: user.busDetails }, process.env.JWT,{ expiresIn: '1800s' });
         const {_id, password, ...otherDetails} = user._doc;
         res.cookie("access_token", token, {httpOnly:true}).status(200).json({...otherDetails, token: token,})
     } catch (error) {

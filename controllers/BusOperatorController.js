@@ -2,17 +2,18 @@ import BusOperator from "../models/BusOperator.js";
 import BusSchedule from "../models/BusScheduleModel.js";
 import BusSeatReservation from "../models/BusSeatReservationModel.js";
 import { busOperatorStatus, runningBusStatus } from "../utils/publicEnum.js";
+import bcrypt from 'bcryptjs';
 
 export const editBusOperatpr = async (req, res, next) => {
     try {
-        const {id, businessName, email, password, location, NoOfBusses } = req.body;
+        const {businessName, email, password, location, NoOfBusses } = req.body;
         let updatedData = { businessName, email, location, NoOfBusses };
         if (password) {
             const hashedPassword = await bcrypt.hash(password, 10);
             updatedData.password = hashedPassword;
         }
         const updatedBusOperator = await BusOperator.findByIdAndUpdate(
-            id,
+            req.user.id,
             { $set: updatedData },
             { new: true }
         );
@@ -33,10 +34,10 @@ export const editBusOperatpr = async (req, res, next) => {
 
 export const addBuses = async ( req, res, next) => {
     try {
-        const operator = await BusOperator.findById(req.body.id);
+        const operator = await BusOperator.findById(req.user.id);
 
         if (!operator) {
-            return res.status(200).json("Bus operator not found");
+            return res.status(200).json("Bus operator not found");d
         }
 
         const isDuplicate = operator.busDetails.some(bus =>
@@ -70,12 +71,11 @@ export const addBuses = async ( req, res, next) => {
 export const scheduleABus = async ( req, res, next) => {
     try {
         const Bus = await BusSchedule.find({busid:req.body.busid});
-
         if (Bus.length === 0 ) {
             const newBusSchedule = new BusSchedule ({
                 busid: req.body.busid,
                 noOfSeats: req.body.noOfSeats,
-                routeId: req.body.routeId,
+                routeId: req.body.routeID,
                 runTimes: [
                     {
                         date: new Date(req.body.date),
@@ -93,7 +93,7 @@ export const scheduleABus = async ( req, res, next) => {
                 ] 
             })
             await newBusSchedule.save();
-            return res.status(200).json(" The bus " + req.body.busNo+ " is scheduled on  " + req.body.date + ". Start at: " + req.body.startTime + ", " +req.body.startFrom+ " - End at: " + req.body.endTime + ", " +req.body.endFrom);
+            return res.status(200).json(" The bus " + req.body.busid+ " is scheduled on  " + req.body.date + ". Start at: " + req.body.startTime + ", " +req.body.startFrom+ " - End at: " + req.body.endTime + ", " +req.body.endFrom);
         } else {
             const isScheduled = Bus[0].runTimes.some(runtime =>
                 runtime.date.toISOString().split("T")[0] ===
@@ -123,7 +123,7 @@ export const scheduleABus = async ( req, res, next) => {
 
             Bus[0].runTimes.push(runTime);
             await Bus[0].save();
-            return res.status(200).json(" The bus " + req.body.busNo+ " is scheduled on  " + req.body.date + ". Start at: " + req.body.startTime + ", " +req.body.startFrom+ " - End at: " + req.body.endTime + ", " +req.body.endFrom);
+            return res.status(200).json(" The bus " + req.body.busid+ " is scheduled on  " + req.body.date + ". Start at: " + req.body.startTime + ", " +req.body.startFrom+ " - End at: " + req.body.endTime + ", " +req.body.endFrom);
         }
 
     } catch (error) {
@@ -134,10 +134,9 @@ export const scheduleABus = async ( req, res, next) => {
 
 export const  viewBOBusdetails = async ( req, res, next ) => {
     try {
-        const BusDetails = await BusOperator.findById(req.params.id);
+        const BusDetails = req.user.busDetails;
         if(BusDetails.length === 0) return res.status(200).json("No Buses added with this");
-        res.status(200).json(BusDetails.busDetails)
-        return result;
+        return res.status(200).json(BusDetails)
     } catch (error) {
         console.log(error)
         next(error)
@@ -148,8 +147,7 @@ export const  viewBusSchedules = async ( req, res, next ) => {
     try {
         const busSchedules = await BusSchedule.find({busid: req.params.busid});
         if(busSchedules.length === 0) return res.status(200).json("This bus has not scheduled yet");
-        res.status(200).json(busSchedules)
-        return result;
+        return res.status(200).json(busSchedules)
     } catch (error) {
         console.log(error)
         next(error)

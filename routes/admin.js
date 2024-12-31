@@ -8,7 +8,7 @@ adminRoute.get('/GetPendingBusOperators', verifyToken, getBusOperatorsForApprova
 
 adminRoute.get('/getBusDetailsForApproval', verifyToken, getBusDetailsForApproval)
 
-adminRoute.post('/ApproveOrRejectBusOperator/:id/:status', verifyToken, ApproveOrRejectBusOperator)
+adminRoute.put('/ApproveOrRejectBusOperator/:id/:status', verifyToken, ApproveOrRejectBusOperator)
 
 adminRoute.post('/ApproveOrRejectBusDetails/:id/:busNo/:status', verifyToken,  ApproveOrRejectBusDetails)
 

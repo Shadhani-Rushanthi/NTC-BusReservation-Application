@@ -43,7 +43,7 @@ const swaggerOption = {
         },
         servers: [
             {
-                url: 'http://localhost:3000'
+                url: 'https://api-df69.onrender.com'
             }
         ]
     },

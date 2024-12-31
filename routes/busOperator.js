@@ -10,7 +10,7 @@ busOperatorRoute.post('/addBuses', verifyToken, addBuses)
 
 busOperatorRoute.post('/scheduleABus', verifyToken,  scheduleABus)
 
-busOperatorRoute.get('/viewBOBusdetails/:id', verifyToken,  viewBOBusdetails)
+busOperatorRoute.get('/viewBOBusdetails/', verifyToken,  viewBOBusdetails)
 
 busOperatorRoute.get('/viewBusSchedules/:busid', verifyToken,  viewBusSchedules)
 

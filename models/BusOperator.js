@@ -16,7 +16,7 @@ const busOperatorSchema = new mongoose.Schema(
                 busNo:  {type: String, required: false, unique: true },
                 noOfSeats:  {type: Number, required: false },
                 condition:  {type: String, required: false },
-                structure:  {type: Number, required: false },
+                structure:  {type: String, required: false },
                 routeID:  {type: Number, required: false },
                 Status: {type: Number, required: false },
             }

@@ -79,7 +79,7 @@ export const viewUserReservations = async (req, res, next) => {
         const userId = req.user.id
         const reservations = await BusSeatReservation.find(
             { "reservedSeats.passengerId": userId }, 
-            {runTimeId: 1, "reservedSeats": 1 }
+            {runTimeId: 1, "reservedSeats": 1 , "reservedSeats.status":2}
         );
         
         for (const reservation of reservations) {
@@ -132,7 +132,7 @@ export const cancelReservation = async (req, res, next) => {
                 if(reservedSeat.passengerId === req.user.id && reservedSeat.seatNumber === req.body.seatNo) {
                     reservedSeat.status = passengerBusStatus.canceled
                     reservations.bookedNoOfSeats -= 1
-                    reservations.totalPrice -= req.body.totalPrice
+                    reservations.totalPrice -= req.body.SeatPrice
                     reservations.fullBooked ?  reservedSeat.fullBooked = false : ''
                 }
         }

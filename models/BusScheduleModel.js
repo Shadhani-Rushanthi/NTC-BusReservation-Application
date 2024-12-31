@@ -18,7 +18,6 @@ const busScheduleModel = new mongoose.Schema(
                 driverLicenseNo: { type: String, required: true },
                 conductorName: { type: String, required: true },
                 conductorId: { type: String, required: true },
-                seatPrice: { type: Number, required: true },
                 replacedWith: { 
                    status: { type: Boolean, required: false, default: false },
                    busNo: { type: Number, required: false, default: '' },

@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: http://localhost:3000
+  - url: https://api-df69.onrender.com
     description: Local server
     
 components:
@@ -18,11 +18,23 @@ components:
 security:
   - bearerAuth: [] # Apply globally if most endpoints require authentication
 
+tags:
+  - name: Auth
+    description: Authentication and registration operations.
+  - name: Admin
+    description: Administrative operations for managing the system.
+  - name: Bus Operator
+    description: Operations available to bus operators.
+  - name: Commuter
+    description: Operations available to commuters.
+
 paths:
 
 # auth route API end points
   /auth/adminRegister:
     post:
+      tags:
+        - Auth
       summary: Register a new admin
       description: Registers a new admin in the system.
       requestBody:
@@ -69,6 +81,8 @@ paths:
 
   /auth/busOperatorRegister:
     post:
+      tags:
+        - Auth
       summary: Register a new bus operator
       description: Registers a new bus operator in the system.
       requestBody:
@@ -123,6 +137,8 @@ paths:
 
   /auth/commuterRegister:
     post:
+      tags:
+        - Auth
       summary: Register a new commuter
       description: Registers a new commuter in the system.
       requestBody:
@@ -173,6 +189,8 @@ paths:
 
   /auth/adminLogin/{email}/{password}:
     post:
+      tags:
+        - Auth
       summary: Admin login
       description: Allows an admin to log into the system.
       parameters:
@@ -210,6 +228,8 @@ paths:
 
   /auth/busOperatorLogin/{email}/{password}:
     post:
+      tags:
+        - Auth
       summary: Bus operator login
       description: Allows a bus operator to log into the system.
       parameters:
@@ -247,6 +267,8 @@ paths:
 
   /auth/commutorLogin/{email}/{password}:
     post:
+      tags:
+        - Auth
       summary: Commuter login
       description: Allows a commuter to log into the system.
       parameters:
@@ -287,6 +309,8 @@ paths:
 
   /admin/GetPendingBusOperators:
     get:
+      tags:
+        - Admin
       summary: Get pending bus operators
       description: Retrieve all bus operators with a pending status for approval.
       responses:
@@ -320,6 +344,8 @@ paths:
 
   /admin/getBusDetailsForApproval:
     get:
+      tags:
+        - Admin
       summary: Get bus details pending approval
       description: Retrieve bus details submitted by operators that are pending approval.
       responses:
@@ -348,7 +374,9 @@ paths:
                             description: Current status of the bus.
 
   /admin/ApproveOrRejectBusOperator/{id}/{status}:
-    post:
+    put:
+      tags:
+        - Admin
       summary: Approve or reject a bus operator
       description: Approve or reject a bus operator based on their ID and the status provided.
       parameters:
@@ -362,8 +390,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            enum: ["Approved", "Rejected"]
+            type: number
+            enum: [2, 3]
           description: Approval or rejection status.
       responses:
         '200':
@@ -372,7 +400,9 @@ paths:
           description: Bus operator not found.
 
   /admin/ApproveOrRejectBusDetails/{id}/{busNo}/{status}:
-    post:
+    put:
+      tags:
+        - Admin
       summary: Approve or reject bus details
       description: Approve or reject a specific bus detail for a bus operator.
       parameters:
@@ -403,6 +433,8 @@ paths:
 
   /admin/ViewRegisteredBusOperators:
     get:
+      tags:
+        - Admin
       summary: Get registered bus operators
       description: Retrieve all approved bus operators.
       responses:
@@ -442,6 +474,8 @@ paths:
 
   /admin/ViewRejectedBusOperators:
     get:
+      tags:
+        - Admin
       summary: Get rejected bus operators
       description: Retrieve all rejected bus operators.
       responses:
@@ -481,6 +515,8 @@ paths:
 
   /admin/addBusRoutes:
     post:
+      tags:
+        - Admin
       summary: Add a new bus route
       description: Add a new route to the system.
       requestBody:
@@ -514,6 +550,8 @@ paths:
 
   /busOperator/editBusOperator:
     post:
+      tags:
+        - Bus Operator
       summary: Edit bus operator details
       description: Updates the details of a bus operator.
       security:
@@ -557,6 +595,8 @@ paths:
 
   /busOperator/addBuses:
     post:
+      tags:
+        - Bus Operator
       summary: Add buses for approval
       description: Adds a new bus under a bus operator's management and sends it for approval.
       security:
@@ -568,10 +608,6 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  type: string
-                  description: ID of the bus operator.
-                  example: "63a45b6e4c3a2c0012f5e89d"
                 PermitNo:
                   type: string
                   description: Permit number of the bus.
@@ -579,7 +615,7 @@ paths:
                 busNo:
                   type: string
                   description: Bus number.
-                  example: "NY1234"
+                  example: "NY-1234"
                 noOfSeats:
                   type: integer
                   description: Number of seats.
@@ -587,7 +623,7 @@ paths:
                 condition:
                   type: string
                   description: Condition of the bus.
-                  example: "Good"
+                  example: ["Luxury", "Semi Luxury", "Normal"]
                 routeID:
                   type: string
                   description: Route ID.
@@ -595,7 +631,7 @@ paths:
                 structure:
                   type: string
                   description: Structure of the bus.
-                  example: "Double-decker"
+                  example: ["2x2", "1x3"]
       responses:
         '200':
           description: Bus added and sent for approval.
@@ -606,6 +642,8 @@ paths:
 
   /busOperator/scheduleABus:
     post:
+      tags:
+        - Bus Operator
       summary: Schedule a bus
       description: Schedules a bus for specific dates and times.
       requestBody:
@@ -624,6 +662,10 @@ paths:
                   format: date
                   description: Date of the schedule.
                   example: "2024-12-30"
+                routeID:
+                  type: number
+                  description: route not.
+                  example: 01
                 startTime:
                   type: string
                   format: time
@@ -662,24 +704,22 @@ paths:
                   type: string
                   description: Conductor's ID.
                   example: "C78901"
+                noOfSeats:
+                  type: number
+                  description: No. of seats in the bus
+                  example: 49
       responses:
         '200':
           description: Bus scheduled successfully.
         '409':
           description: Bus already scheduled for this time.
 
-  /busOperator/viewBOBusdetails/{id}:
+  /busOperator/viewBOBusdetails:
     get:
+      tags:
+        - Bus Operator
       summary: View bus operator bus details
       description: Retrieve bus details for a specific bus operator.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-          description: ID of the bus operator.
-          example: "63a45b6e4c3a2c0012f5e89d"
       responses:
         '200':
           description: Successfully retrieved bus details.
@@ -688,6 +728,8 @@ paths:
 
   /busOperator/viewBusSchedules/{busid}:
     get:
+      tags:
+        - Bus Operator
       summary: View bus schedules
       description: Retrieves all schedules for a specific bus.
       parameters:
@@ -706,6 +748,8 @@ paths:
 
   /busOperator/viewBusSeatReservations/{runTimeId}:
     get:
+      tags:
+        - Bus Operator
       summary: View bus seat reservations
       description: Retrieves seat reservations for a specific runtime.
       parameters:
@@ -725,9 +769,31 @@ paths:
 # commutor.js
 
   /commutor/searchBusses:
-    get:
+    post:
+      tags:
+        - Commuter
       summary: Search buses
       description: Search for available buses based on criteria (implementation specifics may vary).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date
+                  description: Date of the schedule.
+                  example: "2024-12-30"
+                startFrom:
+                  type: string
+                  description: Starting location
+                  example: "city A"
+                endFrom:
+                  type: string
+                  description: Starting location
+                  example: "city A"
       responses:
         '200':
           description: Successfully retrieved search results.
@@ -736,6 +802,8 @@ paths:
 
   /commutor/reserveSeat:
     post:
+      tags:
+        - Commuter
       summary: Reserve a seat
       description: Reserve a seat on a bus for a specific runtime.
       security:
@@ -770,6 +838,10 @@ paths:
                   format: date-time
                   description: Booking time.
                   example: "2024-12-30T08:00:00Z"
+                noOfSeats:
+                  type: number
+                  description: No of seats in the bus.
+                  example: 49
       responses:
         '200':
           description: Seat reserved successfully.
@@ -778,6 +850,8 @@ paths:
 
   /commutor/viewUserReservations:
     get:
+      tags:
+        - Commuter
       summary: View user reservations
       description: Retrieve all reservations made by a specific user.
       security:
@@ -837,6 +911,8 @@ paths:
 
   /commutor/cancelReservation:
     post:
+      tags:
+        - Commuter
       summary: Cancel a reservation
       description: Cancel a reservation for a specific seat on a bus.
       security:
@@ -856,10 +932,10 @@ paths:
                   type: integer
                   description: Seat number to cancel.
                   example: 1
-                totalPrice:
+                SeatPrice:
                   type: number
                   description: Price of the seat being canceled.
-                  example: 15.50
+                  example: 1550
       responses:
         '200':
           description: Reservation canceled successfully.

@@ -5,7 +5,7 @@ import { verifyToken } from '../utils/verifyToken.js';
 
 const commutorRoute = express.Router();
 
-commutorRoute.get('/searchBusses', searchBusses)
+commutorRoute.post('/searchBusses', searchBusses)
 
 commutorRoute.post('/reserveSeat', verifyToken, reserveASeat)
 

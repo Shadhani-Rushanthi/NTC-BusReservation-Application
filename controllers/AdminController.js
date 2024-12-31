@@ -110,8 +110,8 @@ export const addBusRoutes = async (req, res, next) => {
     try {
         const newRoute = new BusRoute({
             routeId: req.body.routeId,
-            routeStart: req.body.routeStart,
-            routeEnd: req.body.routeEnd,
+            routeStart: req.body.routeStart.toUpperCase(),
+            routeEnd: req.body.routeEnd.toUpperCase(),
             route: req.body.routeStart.toUpperCase() + ' - ' + req.body.routeEnd.toUpperCase(),
             AvailableBusses: []
         })
