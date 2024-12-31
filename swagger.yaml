@@ -623,7 +623,7 @@ paths:
                 condition:
                   type: string
                   description: Condition of the bus.
-                  example: ["Luxury", "Semi Luxury", "Normal"]
+                  example: "Luxury"
                 routeID:
                   type: string
                   description: Route ID.
@@ -631,7 +631,7 @@ paths:
                 structure:
                   type: string
                   description: Structure of the bus.
-                  example: ["2x2", "1x3"]
+                  example: "2x2"
       responses:
         '200':
           description: Bus added and sent for approval.
