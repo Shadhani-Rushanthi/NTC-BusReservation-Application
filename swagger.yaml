@@ -423,7 +423,7 @@ paths:
           required: true
           schema:
             type: string
-            enum: ["Approved", "Rejected"]
+            enum: [2, 3]
           description: Approval or rejection status.
       responses:
         '200':
