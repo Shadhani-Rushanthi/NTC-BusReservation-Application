@@ -70,7 +70,7 @@ export const BusReservationMail = ( user, schedule, busNo) =>{
     try {
         var content =`
             <p>Dear <b>${user.fname} ${user.lname}  </b>,</p>
-            <h4>Your reservation on bus <b>${busNo}</b> has been confirmed</h4>
+            <h4>Your reservation on bus <b>${busNo}</b> has been confirmed and the payment is done.</h4>
             <h4>Start at <b>${schedule[0].startTime.toString()}</b> from  <b>${schedule[0].startFrom}</b></h4>
             <h4>Start at <b>${schedule[0].endTime.toString()}</b> from  <b>${schedule[0].endFrom}</b></h4>
         `
