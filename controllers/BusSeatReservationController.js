@@ -79,7 +79,7 @@ export const viewUserReservations = async (req, res, next) => {
         const userId = req.user.id
         const reservations = await BusSeatReservation.find(
             { "reservedSeats.passengerId": userId }, 
-            {runTimeId: 1, "reservedSeats": 1 , "reservedSeats.status":2}
+            {runTimeId: 1, "reservedSeats": 1 }
         );
         
         for (const reservation of reservations) {
@@ -94,7 +94,7 @@ export const viewUserReservations = async (req, res, next) => {
 
                 var seatNos=[]
                 reservation.reservedSeats.forEach( rs=> {
-                    rs.passengerId === userId ? seatNos.push(rs.seatNumber) : ''
+                    rs.passengerId === userId && rs.status === 2 ? seatNos.push(rs.seatNumber) : ''
                 });
             
                 var reservationDetails = {
@@ -136,6 +136,7 @@ export const cancelReservation = async (req, res, next) => {
                     reservations.fullBooked ?  reservedSeat.fullBooked = false : ''
                 }
         }
+        var reservation = await reservations.save();
         return res.status(200).json(reservations)
 
     } catch (error) {
