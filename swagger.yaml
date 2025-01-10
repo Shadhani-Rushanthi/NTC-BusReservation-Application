@@ -661,7 +661,7 @@ paths:
                   type: string
                   format: date
                   description: Date of the schedule.
-                  example: "2024-12-30"
+                  example: "2025-01-12"
                 routeID:
                   type: number
                   description: route not.
@@ -670,12 +670,12 @@ paths:
                   type: string
                   format: time
                   description: Start time.
-                  example: "08:00:00"
+                  example: "2025-01-12T08:00:00"
                 endTime:
                   type: string
                   format: time
                   description: End time.
-                  example: "10:00:00"
+                  example: "2025-01-12T10:00:00"
                 startFrom:
                   type: string
                   description: Starting location.
