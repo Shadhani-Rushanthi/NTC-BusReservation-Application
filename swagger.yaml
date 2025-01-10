@@ -611,7 +611,7 @@ paths:
                 PermitNo:
                   type: string
                   description: Permit number of the bus.
-                  example: "12345ABC"
+                  example: "NTC/INT/01/X21"
                 busNo:
                   type: string
                   description: Bus number.
